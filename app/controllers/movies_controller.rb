@@ -1,6 +1,5 @@
 class MoviesController < ApplicationController
 
-  Tmdb::Api.key("f4702b08c0ac6ea5b51425788bb26562")
   def movie_params
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
@@ -66,12 +65,11 @@ class MoviesController < ApplicationController
   # One being if no title was even entered or, Second being if title was entered and found, and third if title was
   # entered but movie not existing in tmdb database
   def search_tmdb
-    movie_title = params[:search_terms]
-    @movies = Movie.find_in_tmdb(params[movie_title])
-    if movie_title.nil? or movie_title == ''
+    @movies = Movie.find_in_tmdb(params[:search_terms])
+    if @movies.nil? or @movies == ''
       flash[:warning] = 'No title given.'
       redirect_to movies_path
-    elsif Movie.find_by_title(movie_title).present?
+    elsif Movie.find_by_title(@movies).present?
       redirect_to movies_path
     elsif @movies.empty?
       flash[:notice] = "'#{movie_title}' was not found in TMDb."
