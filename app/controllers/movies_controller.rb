@@ -65,16 +65,33 @@ class MoviesController < ApplicationController
   # One being if no title was even entered or, Second being if title was entered and found, and third if title was
   # entered but movie not existing in tmdb database
   def search_tmdb
-    @movies = Movie.find_in_tmdb(params[:search_terms])
+    if params[:movie][:search_terms] == ''
+      flash[:warning] = 'No title given.'
+      redirect_to movies_path and return
+    end
+    @movies = Movie.find_in_tmdb(params[:movie][:search_terms])
     if @movies.nil? or @movies == ''
       flash[:warning] = 'No title given.'
-      redirect_to movies_path
+      redirect_to movies_path and return
     elsif Movie.find_by_title(@movies).present?
-      redirect_to movies_path
+      redirect_to movies_search_tmdb_path and return
     elsif @movies.empty?
-      flash[:notice] = "'#{movie_title}' was not found in TMDb."
-      redirect_to movies_path
+      flash[:notice] = "No matching movies was not found in TMDb."
+      redirect_to movies_path and return
     end
   end
 
+  def add_tmdb
+    if params[:tmdb_movies].nil?
+      flash[:notice] = "No movies selected"
+      redirect_to movies_path and return
+    end
+    params = (params[:tmdb_movies]).keys each do|tmdb_id|
+      Movie::create!(tmdb_id)
+    end
+    flash[:notice] = "Movies successfully added to Rotten Potatoes"
+    redirect_to movies_path and return
+  end
+
 end
+
