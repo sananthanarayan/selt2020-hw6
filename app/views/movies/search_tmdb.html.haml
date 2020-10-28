@@ -10,7 +10,6 @@
       %th Release Date
       %th More Info
   %tbody
-    = form_tag movies_path, :id => 'tmdb_form'
     - @movies.each do |movie|
       %tr
         %td= movie[:title]
@@ -19,5 +18,4 @@
         %td=check_box_tag "tmdb_movies[#{movie[:tmdb_id]}]"
 
         = submit_tag 'Add Selected Movies', :id => 'movies_button'
-
-= link_to 'Add new movie', new_movie_path
+        = link_to 'Return to movies list', movies_path
