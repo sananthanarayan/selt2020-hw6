@@ -3,7 +3,7 @@ class Movie < ActiveRecord::Base
     %w(G PG PG-13 NC-17 R)
   end
 
-  def rating_of_movie(id)
+  def self.rating_of_movie(id)
     rating = Tmdb::Movie.releases(id)
     rating1 = rating["countries"]
 
@@ -23,17 +23,12 @@ class Movie::InvalidKeyError < StandardError ; end
 
      tmdb_array = []
 
-     Tmdb::Movie.find(string).each do |movie|
-       # matching_movies = Tmdb::Movie.find(movie)
-       tmdb_array.append({
-          tmdb_id: movie.id,
-          rating: rating_of_movie(movie.id),
-          release_date: movie.release_date,
-          title: movie.title
-       })
-       # movie = matching_movies[0]
-
-       tmdb_array
+     movie_array = Tmdb::Movie.find(string)
+     # print(movie_array)
+     movie_array.each do |movie|
+       # print movie
+       tmdb_array << {:tmdb_id => movie.id, :rating => rating_of_movie(movie.id), :release_date => movie.release_date, :title => movie.title}
+       # print(tmdb_array)
 
      end
 
@@ -44,5 +39,11 @@ class Movie::InvalidKeyError < StandardError ; end
    tmdb_array
 
  end
+
+  def self.create_tmdb_movie(tmdb_id)
+    detail_of_movies = Tmdb::Movie.detail(tmdb_id)
+    hash_of_added_movies = {:tmdb_id => detail_of_movies["id"], :title => detail_of_movies["original_title"], :rating => rating_of_movie(movie.id), :release_date => detail_of_movies["release_date"]}
+    Movie.create!(hash_of_added_movies)
+  end
 
 end
