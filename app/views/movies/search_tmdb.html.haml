@@ -10,12 +10,13 @@
       %th Release Date
       %th More Info
   %tbody
-    - @movies.each do |movie|
-      %tr
-        %td= movie[:title]
-        %td= movie[:rating]
-        %td= movie[:release_date]
-        %td=check_box_tag "tmdb_movies[#{movie[:tmdb_id]}]", :id => "checkbox_#{movie[:tmdb_id]}"
+    = form_tag movies_add_tmdb_path, :id => 'tmdb_movies_form'
+      - @movies.each do |movie|
+        %tr
+          %td= movie[:title]
+          %td= movie[:rating]
+          %td= movie[:release_date]
+          %td=check_box_tag "tmdb_movies[#{movie[:tmdb_id]}]", :id => "checkbox_#{movie[:tmdb_id]}"
 
-        = submit_tag 'Add Selected Movies', :id => 'movies_button'
-        = link_to 'Return to movies list', movies_path
+          = submit_tag 'Add Selected Movies', :id => 'movies_button'
+          = link_to 'Return to movies list', movies_path
