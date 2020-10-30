@@ -10,7 +10,7 @@ class Movie < ActiveRecord::Base
     rating1.each do |a|
       if a["iso_3166_1"] == "US"
         final_rating = a["certification"]
-        final_rating
+        return final_rating
       end
     end
   end
@@ -40,10 +40,13 @@ class Movie::InvalidKeyError < StandardError ; end
 
  end
 
-  def self.create_tmdb_movie(tmdb_id)
+  def self.add_tmdb_movie(tmdb_id)
     detail_of_movies = Tmdb::Movie.detail(tmdb_id)
-    hash_of_added_movies = {:tmdb_id => detail_of_movies["id"], :title => detail_of_movies["original_title"], :rating => rating_of_movie(movie.id), :release_date => detail_of_movies["release_date"]}
-    Movie.create!(hash_of_added_movies)
+    print(detail_of_movies)
+    movie_check = {:id => detail_of_movies["id"], :title => detail_of_movies["title"], :rating => rating_of_movie(detail_of_movies["id"]), :release_date => detail_of_movies["release_date"]}
+    print(movie_check)
+    # byebug
+    Movie.create!(movie_check)
   end
 
 end
