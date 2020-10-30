@@ -1,6 +1,6 @@
 -# This file is app/views/movies/search_tmdb.html.haml
 
-%h1 The following moving containing '#{:search_terms}' were found on TMDb
+%h1 The following moving containing '#{params[:movie][:search_terms]}' were found on TMDb
 = form_tag movies_add_tmdb_path, :id => 'tmdb_movies_form' do
   %table#movies
     %thead
