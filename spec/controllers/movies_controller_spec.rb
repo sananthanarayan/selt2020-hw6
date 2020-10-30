@@ -19,5 +19,15 @@ describe MoviesController do
       post :search_tmdb, {:search_terms => 'Ted'}
       expect(assigns(:movies)).to eq(fake_results)
     end
+   it 'should redirect to the movies path for an empty array' do
+     blank_results = []
+     allow(Movie).to receive(:find_in_tmdb).and_return(blank_results)
+     post :search_tmdb, {:search_terms => 'adfjka adjksfajkhsdf'}
+     expect(response).to redirect_to('/movies')
+   end
+   it 'should redirect to movies path if search is empty' do
+     post :search_tmdb, {:search_terms => ''}
+     expect(response).to redirect_to('/movies')
+   end
   end
 end

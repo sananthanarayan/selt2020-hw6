@@ -20,3 +20,8 @@ command to start the rails server:
 rails server -p $PORT -b $IP
 
 =end
+
+Issue I was facing was that I was getting my spec tests to pass at one point but once I finished and implemented SimpleCov
+the spec tests no longer passed. I spent about 1.5-2.5 hours on stackoverflow to try to resolve this issue but could not
+seem to get any potential solution, so went back to how I had my rspec tests originally written. Its weird that my rspec tests
+fail but my heroku app performs like it should
