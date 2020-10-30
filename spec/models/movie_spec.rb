@@ -5,7 +5,7 @@ describe Movie do
   describe 'searching Tmdb by keyword' do
     context 'with valid key' do
       it 'should call Tmdb with title keywords' do
-        expect( Tmdb::Movie).to receive(:find).with('Inception')
+        Tmdb::Movie.should_receive(:find).with(hash_including :title => 'Inception')
         Movie.find_in_tmdb('Inception')
       end
     end
