@@ -27,7 +27,7 @@ class Movie::InvalidKeyError < StandardError ; end
      # print(movie_array)
      movie_array.each do |movie|
        # print movie
-       tmdb_array << {:tmdb_id => movie.id, :rating => rating_of_movie(movie.id), :release_date => movie.release_date, :title => movie.title}
+       tmdb_array.append({:tmdb_id => movie.id, :rating => rating_of_movie(movie.id), :release_date => movie.release_date, :title => movie.title})
        # print(tmdb_array)
 
      end
